@@ -3,7 +3,7 @@ defmodule CreditCard.Mixfile do
 
   def project do
     [app: :credit_card,
-     version: "0.0.1",
+     version: "1.0.0",
      description: "A library for validating credit card numbers",
      source_url: "https://github.com/abakhi/credit_card",
      package: package,
