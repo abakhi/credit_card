@@ -4,3 +4,5 @@
 /docs
 erl_crash.dump
 *.ez
+
+/doc
