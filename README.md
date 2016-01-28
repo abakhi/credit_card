@@ -47,7 +47,7 @@ defmodule MyApp.Card do
       if CreditCard.valid?(to_string(number)) do
         []
       else
-        [field, message]
+        [{field, message}]
       end
     end
   end
