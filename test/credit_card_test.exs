@@ -12,6 +12,7 @@ defmodule CreditCardTest do
     assert CreditCard.card_type("6011000990139424") == :discover
     assert CreditCard.card_type("6759671431256542") == :maestro
     assert CreditCard.card_type("3530111333300000") == :jcb
+    assert CreditCard.card_type("6212341111111111") == :unionpay
   end
 
   test "detect specific types" do
@@ -29,6 +30,8 @@ defmodule CreditCardTest do
     assert !CreditCard.card_is("30569309025904", :maestro)
     assert CreditCard.card_is("3530111333300000", :jcb)
     assert !CreditCard.card_is("6759671431256542", :jcb)
+    assert CreditCard.card_is("6212341111111111", :unionpay)
+    assert !CreditCard.card_is("5555555555554444", :unionpay)
   end
 
   test "luhn verification" do

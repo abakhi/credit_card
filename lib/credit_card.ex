@@ -9,7 +9,8 @@ defmodule CreditCard do
     diners_club: ~r/^3(?:0[0-5]|[68][0-9])[0-9]{11}$/,
     amex: ~r/^3[47][0-9]{13}$/,
     discover: ~r/^6(?:011|5[0-9]{2})[0-9]{12}$/,
-    jcb: ~r/^(?:2131|1800|35\d{3})\d{11}$/
+    jcb: ~r/^(?:2131|1800|35\d{3})\d{11}$/,
+    unionpay: ~r/^62[0-5]\d{13,16}$/
   ]
 
   @test_numbers [
@@ -22,7 +23,8 @@ defmodule CreditCard do
       4005519200000004 4009348888881881 4012000033330026
       4012000077777777 4217651111111119 4500600000000061
       4000111111111115 ),
-    jcb: ~w(3530111333300000 3566002020360505)
+    jcb: ~w(3530111333300000 3566002020360505),
+    unionpay: ~w(6212341111111111)
   ] |> Keyword.values |> List.flatten
 
   @opts %{
@@ -167,6 +169,10 @@ defmodule CreditCard do
 
   def card_is(number, :jcb) do
     @card_types[:jcb] |> Regex.match?(number)
+  end
+
+  def card_is(number, :unionpay) do
+    @card_types[:unionpay] |> Regex.match?(number)
   end
 
   @spec rotate(String.t) :: String.t
