@@ -177,7 +177,6 @@ defmodule CreditCard do
 
   @spec rotate(String.t) :: String.t
   defp rotate(number) do
-    if number > 9, do: number = rem(number,10) + 1
-    number
+    if number > 9, do: rem(number, 10) + 1, else: number
   end
 end
