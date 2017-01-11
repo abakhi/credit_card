@@ -6,11 +6,11 @@ defmodule CreditCard.Mixfile do
      version: "1.0.0",
      description: "A library for validating credit card numbers",
      source_url: "https://github.com/abakhi/credit_card",
-     package: package,
+     package: package(),
      elixir: "~> 1.0",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
-     deps: deps]
+     deps: deps()]
   end
 
   # Configuration for the OTP application
