@@ -2,16 +2,21 @@ defmodule CreditCard do
   @moduledoc """
   Credit card validations library
   """
-  @card_types [
-    visa: ~r/^4[0-9]{12}(?:[0-9]{3})?$/,
-    master_card: ~r/^5[1-5][0-9]{14}$/,
-    maestro:  ~r/(^6759[0-9]{2}([0-9]{10})$)|(^6759[0-9]{2}([0-9]{12})$)|(^6759[0-9]{2}([0-9]{13})$)/,
-    diners_club: ~r/^3(?:0[0-5]|[68][0-9])[0-9]{11}$/,
-    amex: ~r/^3[47][0-9]{13}$/,
-    discover: ~r/^6(?:011|5[0-9]{2})[0-9]{12}$/,
-    jcb: ~r/^(?:2131|1800|35\d{3})\d{11}$/,
-    unionpay: ~r/^62[0-5]\d{13,16}$/
-  ]
+
+  @card_type_keys [:visa, :master_card, :maestro, :diners_club, :amex, :discover, :jcb, :unionpay]
+
+  defp card_types do
+    [
+      visa: ~r/^4[0-9]{12}(?:[0-9]{3})?$/,
+      master_card: ~r/^5[1-5][0-9]{14}$/,
+      maestro:  ~r/(^6759[0-9]{2}([0-9]{10})$)|(^6759[0-9]{2}([0-9]{12})$)|(^6759[0-9]{2}([0-9]{13})$)/,
+      diners_club: ~r/^3(?:0[0-5]|[68][0-9])[0-9]{11}$/,
+      amex: ~r/^3[47][0-9]{13}$/,
+      discover: ~r/^6(?:011|5[0-9]{2})[0-9]{12}$/,
+      jcb: ~r/^(?:2131|1800|35\d{3})\d{11}$/,
+      unionpay: ~r/^62[0-5]\d{13,16}$/
+    ]
+  end
 
   @test_numbers [
     amex: ~w(378282246310005 371449635398431 378734493671000 ),
@@ -28,7 +33,7 @@ defmodule CreditCard do
   ] |> Keyword.values |> List.flatten
 
   @opts %{
-            allowed_card_types: Keyword.keys(@card_types),
+            allowed_card_types: @card_type_keys,
             test_numbers_are_valid: false
         }
 
@@ -126,7 +131,7 @@ defmodule CreditCard do
   """
   @spec card_type(String.t) :: atom | validation_error
   def card_type(number) do
-    card_type = (Keyword.keys(@card_types)
+    card_type = (@card_type_keys
                  |> Enum.filter(&(card_is(strip(number), &1))))
     case card_type do
       [h|_] -> h
@@ -144,35 +149,35 @@ defmodule CreditCard do
 
   @spec card_is(String.t, atom) :: boolean
   def card_is(number, :visa) do
-    @card_types[:visa] |> Regex.match?(number)
+    card_types()[:visa] |> Regex.match?(number)
   end
 
   def card_is(number, :master_card) do
-    @card_types[:master_card] |> Regex.match?(number)
+    card_types()[:master_card] |> Regex.match?(number)
   end
 
   def card_is(number, :maestro) do
-    @card_types[:maestro] |> Regex.match?(number)
+    card_types()[:maestro] |> Regex.match?(number)
   end
 
   def card_is(number, :diners_club) do
-    @card_types[:diners_club] |> Regex.match?(number)
+    card_types()[:diners_club] |> Regex.match?(number)
   end
 
   def card_is(number, :discover) do
-    @card_types[:discover] |> Regex.match?(number)
+    card_types()[:discover] |> Regex.match?(number)
   end
 
   def card_is(number, :amex) do
-    @card_types[:amex] |> Regex.match?(number)
+    card_types()[:amex] |> Regex.match?(number)
   end
 
   def card_is(number, :jcb) do
-    @card_types[:jcb] |> Regex.match?(number)
+    card_types()[:jcb] |> Regex.match?(number)
   end
 
   def card_is(number, :unionpay) do
-    @card_types[:unionpay] |> Regex.match?(number)
+    card_types()[:unionpay] |> Regex.match?(number)
   end
 
   @spec rotate(String.t) :: String.t
